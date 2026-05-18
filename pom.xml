@@ -1,3 +1,8 @@
+Arată bine, dar ca să rezolvăm eroarea de pe Railway, trebuie să inserăm plugin-ul webapp-runner în secțiunea <plugins>. Acesta îi va permite lui Railway să ruleze fișierul tău .war folosind un server Tomcat integrat.
+
+Iată varianta completă. Copiază tot codul de mai jos și înlocuiește conținutul fișierului tău pom.xml de pe GitHub:
+
+XML
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -29,8 +34,31 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <source>11</source> <target>11</target>
+          <source>11</source> 
+          <target>11</target>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.1.2</version>
+        <executions>
+            <execution>
+                <phase>package</phase>
+                <goals><goal>copy</goal></goals>
+                <configuration>
+                    <artifactItems>
+                        <artifactItem>
+                            <groupId>com.github.jsimone</groupId>
+                            <artifactId>webapp-runner</artifactId>
+                            <version>9.0.52.1</version>
+                            <destFileName>webapp-runner.jar</destFileName>
+                        </artifactItem>
+                    </artifactItems>
+                </configuration>
+            </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
